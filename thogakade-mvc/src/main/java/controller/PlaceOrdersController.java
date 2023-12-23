@@ -1,5 +1,7 @@
 package controller;
 
+import bo.custom.CustomerBO;
+import bo.custom.impl.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -22,12 +24,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import dao.CustomerModel;
-import dao.ItemModel;
-import dao.OrderModel;
-import dao.impl.CustomerModelImpl;
-import dao.impl.ItemModelImpl;
-import dao.impl.OrderModelImpl;
+import dao.custom.CustomerDAO;
+import dao.custom.ItemDAO;
+import dao.custom.OrderDAO;
+import dao.custom.impl.CustomerDAOImpl;
+import dao.custom.impl.ItemDAOImpl;
+import dao.custom.impl.OrderDAOImpl;
 
 import java.io.IOException;
 import java.net.URL;
@@ -112,13 +114,13 @@ public class PlaceOrdersController implements Initializable {
     @FXML
     private Label lblTotal;
 
-    private CustomerModel customerModel = new CustomerModelImpl();
-    private ItemModel itemModel = new ItemModelImpl();
+    private CustomerBO<CustomerDTO> customerBO = new CustomerBOImpl();
+    private ItemDAO itemDAO = new ItemDAOImpl();
     private List<ItemDTO> items;
     private List<CustomerDTO> customers;
 
     private ObservableList<OrderTM> tmList = FXCollections.observableArrayList();
-    private OrderModel orderModel = new OrderModelImpl();
+    private OrderDAO orderDAO = new OrderDAOImpl();
 
     private double total = 0.0;
 
@@ -174,8 +176,8 @@ public class PlaceOrdersController implements Initializable {
         colOption.setCellValueFactory(new PropertyValueFactory<>("btn"));
 
         try {
-            customers = customerModel.allCustomers();
-            items = itemModel.allItems();
+            customers = customerBO.allCustomers();
+            items = itemDAO.allItems();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -229,7 +231,7 @@ public class PlaceOrdersController implements Initializable {
 
     private void setOrderId() {
         try {
-            String id = orderModel.getLastOrder().getOrderId();
+            String id = orderDAO.getLastOrder().getOrderId();
             if (id!=null){
                 int num = Integer.parseInt(id.split("[D]")[1]);
                 num++;
@@ -265,7 +267,7 @@ public class PlaceOrdersController implements Initializable {
 
 
         try {
-            boolean isSaved = orderModel.saveOrder(dto);
+            boolean isSaved = orderDAO.saveOrder(dto);
             if (isSaved){
                 new Alert(Alert.AlertType.INFORMATION, "Order saved!").show();
                 setOrderId();

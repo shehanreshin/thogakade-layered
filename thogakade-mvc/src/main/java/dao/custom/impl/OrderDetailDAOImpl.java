@@ -1,8 +1,8 @@
-package dao.impl;
+package dao.custom.impl;
 
 import db.DBConnection;
 import dto.OrderDetailDTO;
-import dao.OrderDetailModel;
+import dao.custom.OrderDetailDAO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDetailModelImpl implements OrderDetailModel {
+public class OrderDetailDAOImpl implements OrderDetailDAO {
     @Override
     public List<OrderDetailDTO> allOrders() throws SQLException, ClassNotFoundException {
         List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();

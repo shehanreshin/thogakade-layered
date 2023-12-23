@@ -1,8 +1,8 @@
-package dao.impl;
+package dao.custom.impl;
 
 import db.DBConnection;
 import dto.ItemDTO;
-import dao.ItemModel;
+import dao.custom.ItemDAO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemModelImpl implements ItemModel {
+public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean saveItem(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO item VALUES(?,?,?,?)");

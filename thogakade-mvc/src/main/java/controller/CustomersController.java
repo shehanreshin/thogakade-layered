@@ -1,5 +1,7 @@
 package controller;
 
+import bo.custom.CustomerBO;
+import bo.custom.impl.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import dto.CustomerDTO;
@@ -17,8 +19,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import dao.CustomerModel;
-import dao.impl.CustomerModelImpl;
+import dao.custom.CustomerDAO;
+import dao.custom.impl.CustomerDAOImpl;
 
 import java.io.IOException;
 import java.net.URL;
@@ -96,7 +98,7 @@ public class CustomersController implements Initializable {
     @FXML
     private JFXButton btnUpdate;
 
-    private final CustomerModel customerModel = new CustomerModelImpl();
+    private final CustomerBO<CustomerDTO> customerBO = new CustomerBOImpl();
 
     public void notificationsButtonOnAction() {
     }
@@ -157,7 +159,7 @@ public class CustomersController implements Initializable {
     private void loadCustomers() {
         ObservableList<CustomerTM> tmList = FXCollections.observableArrayList();
         try {
-            List<CustomerDTO> dtoList = customerModel.allCustomers();
+            List<CustomerDTO> dtoList = customerBO.allCustomers();
             for (CustomerDTO customerDTO : dtoList) {
                 JFXButton btn = new JFXButton("Delete");
                 CustomerTM customerTM = new CustomerTM(
@@ -193,7 +195,7 @@ public class CustomersController implements Initializable {
 
     public void deleteCustomer(String id) {
         try {
-            boolean isDeleted = customerModel.deleteCustomer(id);
+            boolean isDeleted = customerBO.deleteCustomer(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.INFORMATION, "Customer Deleted!").show();
                 loadCustomers();
@@ -210,7 +212,7 @@ public class CustomersController implements Initializable {
             return;
         }
         try {
-            boolean isSaved = customerModel.saveCustomer(new CustomerDTO(txtId.getText(),
+            boolean isSaved = customerBO.saveCustomer(new CustomerDTO(txtId.getText(),
                     txtName.getText(),
                     txtAddress.getText(),
                     Double.parseDouble(txtSalary.getText())
@@ -276,7 +278,7 @@ public class CustomersController implements Initializable {
             return;
         }
         try {
-            boolean isUpdated = customerModel.updateCustomer(new CustomerDTO(txtId.getText(),
+            boolean isUpdated = customerBO.updateCustomer(new CustomerDTO(txtId.getText(),
                     txtName.getText(),
                     txtAddress.getText(),
                     Double.parseDouble(txtSalary.getText())

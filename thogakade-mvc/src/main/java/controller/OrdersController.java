@@ -16,8 +16,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import dao.OrderDetailModel;
-import dao.impl.OrderDetailModelImpl;
+import dao.custom.OrderDetailDAO;
+import dao.custom.impl.OrderDetailDAOImpl;
 
 import java.io.IOException;
 import java.net.URL;
@@ -71,7 +71,7 @@ public class OrdersController implements Initializable {
     @FXML
     private TableColumn colUnitPrice;
 
-    private final OrderDetailModel orderDetailModel = new OrderDetailModelImpl();
+    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
 
     public void notificationsButtonOnAction() {
     }
@@ -127,7 +127,7 @@ public class OrdersController implements Initializable {
     private void loadOrders() {
         ObservableList<OrderDetailTM> tmList = FXCollections.observableArrayList();
         try {
-            List<OrderDetailDTO> dtoList = orderDetailModel.allOrders();
+            List<OrderDetailDTO> dtoList = orderDetailDAO.allOrders();
             for (OrderDetailDTO orderDetailDTO : dtoList) {
                 OrderDetailTM orderDetailTM = new OrderDetailTM(
                         orderDetailDTO.getOrderId(),

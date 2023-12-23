@@ -17,8 +17,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import dao.ItemModel;
-import dao.impl.ItemModelImpl;
+import dao.custom.ItemDAO;
+import dao.custom.impl.ItemDAOImpl;
 
 import java.io.IOException;
 import java.net.URL;
@@ -71,7 +71,7 @@ public class ItemsController implements Initializable {
     @FXML
     private JFXTextField txtSearch;
 
-    private final ItemModel itemModel = new ItemModelImpl();
+    private final ItemDAO itemDAO = new ItemDAOImpl();
 
     public void notificationsButtonOnAction() {
     }
@@ -118,7 +118,7 @@ public class ItemsController implements Initializable {
     private void loadItems() {
         ObservableList<ItemTM> tmList = FXCollections.observableArrayList();
         try {
-            List<ItemDTO> dtoList = itemModel.allItems();
+            List<ItemDTO> dtoList = itemDAO.allItems();
             for (ItemDTO itemDTO : dtoList) {
                 JFXButton btn = new JFXButton("Delete");
                 ItemTM itemTm = new ItemTM(
@@ -223,7 +223,7 @@ public class ItemsController implements Initializable {
 
     public void deleteItem(String id) {
         try {
-            boolean isDeleted = itemModel.deleteItem(id);
+            boolean isDeleted = itemDAO.deleteItem(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.INFORMATION, "Item Deleted!").show();
                 loadItems();
@@ -240,7 +240,7 @@ public class ItemsController implements Initializable {
             return;
         }
         try {
-            boolean isSaved = itemModel.saveItem(new ItemDTO(txtCode.getText(),
+            boolean isSaved = itemDAO.saveItem(new ItemDTO(txtCode.getText(),
                     txtDescription.getText(),
                     Double.parseDouble(txtUnitPrice.getText()),
                     Integer.parseInt(txtQty.getText())
@@ -275,7 +275,7 @@ public class ItemsController implements Initializable {
             return;
         }
         try {
-            boolean isUpdated = itemModel.updateItem(new ItemDTO(txtCode.getText(),
+            boolean isUpdated = itemDAO.updateItem(new ItemDTO(txtCode.getText(),
                     txtDescription.getText(),
                     Double.parseDouble(txtUnitPrice.getText()),
                     Integer.parseInt(txtQty.getText())
