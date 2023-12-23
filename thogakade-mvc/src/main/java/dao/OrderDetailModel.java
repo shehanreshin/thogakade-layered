@@ -1,4 +1,4 @@
-package model;
+package dao;
 
 import dto.OrderDTO;
 import dto.OrderDetailDTO;

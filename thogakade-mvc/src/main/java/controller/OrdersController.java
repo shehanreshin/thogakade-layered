@@ -16,8 +16,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.OrderDetailModel;
-import model.impl.OrderDetailModelImpl;
+import dao.OrderDetailModel;
+import dao.impl.OrderDetailModelImpl;
 
 import java.io.IOException;
 import java.net.URL;

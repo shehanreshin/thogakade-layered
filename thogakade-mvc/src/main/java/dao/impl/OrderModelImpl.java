@@ -1,9 +1,9 @@
-package model.impl;
+package dao.impl;
 
 import db.DBConnection;
 import dto.OrderDTO;
-import model.OrderDetailModel;
-import model.OrderModel;
+import dao.OrderDetailModel;
+import dao.OrderModel;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
