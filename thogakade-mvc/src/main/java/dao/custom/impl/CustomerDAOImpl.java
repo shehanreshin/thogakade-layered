@@ -1,5 +1,6 @@
 package dao.custom.impl;
 
+import dao.util.CrudUtil;
 import db.DBConnection;
 import dto.CustomerDTO;
 import dao.custom.CustomerDAO;
@@ -14,19 +15,14 @@ import java.util.List;
 public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public boolean save(Customer entity) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO customer VALUES(?,?,?,?)");
-        preparedStatement.setString(1,entity.getId());
-        preparedStatement.setString(2,entity.getName());
-        preparedStatement.setString(3,entity.getAddress());
-        preparedStatement.setDouble(4,entity.getSalary());
-        return preparedStatement.executeUpdate()>0;
+        String sql = "INSERT INTO customer VALUES(?,?,?,?)";
+        return CrudUtil.execute(sql, entity.getId(), entity.getName(), entity.getAddress(), entity.getSalary());
     }
 
     @Override
     public List<Customer> getAll() throws SQLException, ClassNotFoundException {
         List<Customer> customerList = new ArrayList<>();
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM customer");
-        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.execute("SELECT * FROM customer");
 
         while(resultSet.next()) {
             customerList.add(new Customer(
@@ -42,19 +38,14 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean update(Customer entity) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("UPDATE customer SET name=?, address=?, salary=? WHERE id=?");
-        preparedStatement.setString(1,entity.getName());
-        preparedStatement.setString(2,entity.getAddress());
-        preparedStatement.setDouble(3,entity.getSalary());
-        preparedStatement.setString(4,entity.getId());
-        return preparedStatement.executeUpdate()>0;
+        String sql = "UPDATE customer SET name=?, address=?, salary=? WHERE id=?";
+        return CrudUtil.execute(sql, entity.getName(), entity.getAddress(), entity.getSalary(), entity.getId());
     }
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("DELETE from customer WHERE id=?");
-        preparedStatement.setString(1,id);
-        return preparedStatement.executeUpdate()>0;
+        String sql = "DELETE from customer WHERE id=?";
+        return CrudUtil.execute(sql, id);
     }
 
     @Override

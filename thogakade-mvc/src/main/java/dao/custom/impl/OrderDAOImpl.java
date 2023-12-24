@@ -1,6 +1,7 @@
 package dao.custom.impl;
 
 import com.mysql.cj.x.protobuf.MysqlxCrud;
+import dao.util.CrudUtil;
 import db.DBConnection;
 import dto.OrderDTO;
 import dao.custom.OrderDetailDAO;
@@ -17,26 +18,19 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public boolean saveOrderDetails(OrderDTO entity) throws SQLException, ClassNotFoundException {
-        PreparedStatement pstm = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO orders VALUES(?,?,?)");
-        pstm.setString(1, entity.getOrderId());
-        pstm.setString(2, entity.getDate());
-        pstm.setString(3, entity.getCustId());
-
-        if (pstm.executeUpdate() > 0) {
-
+        String sql = "INSERT INTO orders VALUES(?,?,?)";
+        if (CrudUtil.execute(sql, entity.getOrderId(), entity.getDate(), entity.getCustId())) {
             boolean isDetailsSaved = orderDetailDAO.saveOrderDetails(entity.getList());
             if (isDetailsSaved) {
                 return true;
             }
         }
-
         return false;
     }
 
     @Override
     public OrderDTO getLastOrder() throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
-        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.execute("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
         if (resultSet.next()){
             return new OrderDTO(
                     resultSet.getString(1),

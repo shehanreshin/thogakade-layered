@@ -1,5 +1,6 @@
 package dao.custom.impl;
 
+import dao.util.CrudUtil;
 import db.DBConnection;
 import dto.OrderDetailDTO;
 import dao.custom.OrderDetailDAO;
@@ -20,14 +21,11 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
 
     @Override
     public boolean saveOrderDetails(List<OrderDetailDTO> list) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO order_detail VALUES(?,?,?,?)");
+        String sql = "INSERT INTO order_detail VALUES(?,?,?,?)";
 
         for (OrderDetailDTO orderDetailDTO : list) {
-            preparedStatement.setString(1,orderDetailDTO.getOrderId());
-            preparedStatement.setString(2,orderDetailDTO.getItemCode());
-            preparedStatement.setInt(3,orderDetailDTO.getQty());
-            preparedStatement.setDouble(4,orderDetailDTO.getUnitPrice());
-            if (!(preparedStatement.executeUpdate()>0)){
+            boolean isSaved = CrudUtil.execute(sql, orderDetailDTO.getOrderId(), orderDetailDTO.getItemCode(), orderDetailDTO.getQty(), orderDetailDTO.getUnitPrice());
+            if (!isSaved){
                 return false;
             }
         }
@@ -37,8 +35,7 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     @Override
     public List<OrderDetailDTO> getAll() throws SQLException, ClassNotFoundException {
         List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM order_detail");
-        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.execute("SELECT * FROM order_detail");
 
         while(resultSet.next()) {
             orderDetailDTOList.add(new OrderDetailDTO(

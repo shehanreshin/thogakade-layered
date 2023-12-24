@@ -1,5 +1,6 @@
 package dao.custom.impl;
 
+import dao.util.CrudUtil;
 import db.DBConnection;
 import dto.ItemDTO;
 import dao.custom.ItemDAO;
@@ -19,19 +20,14 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean save(Item entity) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO item VALUES(?,?,?,?)");
-        preparedStatement.setString(1,entity.getCode());
-        preparedStatement.setString(2,entity.getDescription());
-        preparedStatement.setDouble(3,entity.getUnitPrice());
-        preparedStatement.setInt(4,entity.getQtyOnHand());
-        return preparedStatement.executeUpdate()>0;
+        String sql = "INSERT INTO item VALUES(?,?,?,?)";
+        return CrudUtil.execute(sql, entity.getCode(), entity.getDescription(), entity.getUnitPrice(), entity.getQtyOnHand());
     }
 
     @Override
     public List<Item> getAll() throws SQLException, ClassNotFoundException {
         List<Item> itemList = new ArrayList<>();
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM item");
-        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.execute("SELECT * FROM item");
 
         while(resultSet.next()) {
             itemList.add(new Item(
@@ -47,18 +43,12 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean update(Item entity) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("UPDATE item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
-        preparedStatement.setString(1,entity.getDescription());
-        preparedStatement.setDouble(2,entity.getUnitPrice());
-        preparedStatement.setInt(3,entity.getQtyOnHand());
-        preparedStatement.setString(4,entity.getCode());
-        return preparedStatement.executeUpdate()>0;
+        String sql = "UPDATE item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?";
+        return CrudUtil.execute(sql, entity.getDescription(), entity.getUnitPrice(), entity.getQtyOnHand(), entity.getCode());
     }
 
     @Override
     public boolean delete(String code) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("DELETE from item WHERE code=?");
-        preparedStatement.setString(1,code);
-        return preparedStatement.executeUpdate()>0;
+        return CrudUtil.execute("DELETE from item WHERE code=?", code);
     }
 }
