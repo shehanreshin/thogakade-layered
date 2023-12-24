@@ -1,9 +1,11 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.ItemBO;
 import bo.custom.impl.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import dao.util.BOType;
 import dto.ItemDTO;
 import dto.tm.ItemTM;
 import javafx.collections.FXCollections;
@@ -73,7 +75,7 @@ public class ItemsController implements Initializable {
     @FXML
     private JFXTextField txtSearch;
 
-    private final ItemBO<ItemDTO> itemBO = new ItemBOImpl();
+    private final ItemBO itemBO = BOFactory.getInstance().getBo(BOType.ITEM);
 
     public void notificationsButtonOnAction() {
     }

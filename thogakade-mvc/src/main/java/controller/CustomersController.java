@@ -1,9 +1,11 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.CustomerBO;
 import bo.custom.impl.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import dao.util.BOType;
 import dto.CustomerDTO;
 import dto.tm.CustomerTM;
 import javafx.collections.FXCollections;
@@ -98,7 +100,7 @@ public class CustomersController implements Initializable {
     @FXML
     private JFXButton btnUpdate;
 
-    private final CustomerBO<CustomerDTO> customerBO = new CustomerBOImpl();
+    private final CustomerBO customerBO = BOFactory.getInstance().getBo(BOType.CUSTOMER);
 
     public void notificationsButtonOnAction() {
     }

@@ -11,7 +11,7 @@ import dto.OrderDetailDTO;
 import java.sql.SQLException;
 import java.util.List;
 
-public class OrdersBOImpl implements OrdersBO<OrderDTO> {
+public class OrdersBOImpl implements OrdersBO {
     private final OrderDAO orderDAO = new OrderDAOImpl();
     private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
     @Override

@@ -1,5 +1,6 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.CustomerBO;
 import bo.custom.ItemBO;
 import bo.custom.impl.CustomerBOImpl;
@@ -7,6 +8,7 @@ import bo.custom.impl.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import dao.util.BOType;
 import dto.CustomerDTO;
 import dto.ItemDTO;
 import dto.OrderDTO;
@@ -116,8 +118,8 @@ public class PlaceOrdersController implements Initializable {
     @FXML
     private Label lblTotal;
 
-    private CustomerBO<CustomerDTO> customerBO = new CustomerBOImpl();
-    private ItemBO<ItemDTO> itemBO = new ItemBOImpl();
+    private CustomerBO customerBO = BOFactory.getInstance().getBo(BOType.CUSTOMER);
+    private ItemBO itemBO = BOFactory.getInstance().getBo(BOType.ITEM);
     private List<ItemDTO> items;
     private List<CustomerDTO> customers;
 

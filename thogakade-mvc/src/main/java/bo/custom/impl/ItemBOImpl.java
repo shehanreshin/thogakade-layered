@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemBOImpl implements ItemBO<ItemDTO> {
+public class ItemBOImpl implements ItemBO {
     private final ItemDAO itemDAO = new ItemDAOImpl();
     @Override
     public boolean saveItem(ItemDTO dto) throws SQLException, ClassNotFoundException {

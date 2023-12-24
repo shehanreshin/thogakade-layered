@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerBOImpl implements CustomerBO<CustomerDTO> {
+public class CustomerBOImpl implements CustomerBO {
 
     private CustomerDAO customerDAO = new CustomerDAOImpl();
 
