@@ -3,6 +3,8 @@ package dao.custom.impl;
 import db.DBConnection;
 import dto.OrderDetailDTO;
 import dao.custom.OrderDetailDAO;
+import entity.Item;
+import entity.OrderDetail;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,24 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailDAOImpl implements OrderDetailDAO {
-    @Override
-    public List<OrderDetailDTO> allOrders() throws SQLException, ClassNotFoundException {
-        List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
-        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM order_detail");
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        while(resultSet.next()) {
-            orderDetailDTOList.add(new OrderDetailDTO(
-                    resultSet.getString(1),
-                    resultSet.getString(2),
-                    resultSet.getInt(3),
-                    resultSet.getDouble(4)
-            ));
-        }
-
-        return orderDetailDTOList;
-    }
-
     @Override
     public OrderDetailDTO searchOrder(OrderDetailDTO orderDetailDTO) throws SQLException, ClassNotFoundException {
         return null;
@@ -49,4 +33,24 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
         }
         return true;
     }
+
+    @Override
+    public List<OrderDetailDTO> getAll() throws SQLException, ClassNotFoundException {
+        List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM order_detail");
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while(resultSet.next()) {
+            orderDetailDTOList.add(new OrderDetailDTO(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getInt(3),
+                    resultSet.getDouble(4)
+            ));
+        }
+
+        return orderDetailDTOList;
+    }
+
+
 }

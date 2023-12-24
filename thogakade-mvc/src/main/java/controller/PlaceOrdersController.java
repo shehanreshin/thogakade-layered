@@ -269,7 +269,7 @@ public class PlaceOrdersController implements Initializable {
 
 
         try {
-            boolean isSaved = orderDAO.saveOrder(dto);
+            boolean isSaved = orderDAO.saveOrderDetails(dto);
             if (isSaved){
                 new Alert(Alert.AlertType.INFORMATION, "Order saved!").show();
                 setOrderId();

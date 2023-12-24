@@ -127,7 +127,7 @@ public class OrdersController implements Initializable {
     private void loadOrders() {
         ObservableList<OrderDetailTM> tmList = FXCollections.observableArrayList();
         try {
-            List<OrderDetailDTO> dtoList = orderDetailDAO.allOrders();
+            List<OrderDetailDTO> dtoList = orderDetailDAO.getAll();
             for (OrderDetailDTO orderDetailDTO : dtoList) {
                 OrderDetailTM orderDetailTM = new OrderDetailTM(
                         orderDetailDTO.getOrderId(),
