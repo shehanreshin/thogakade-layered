@@ -1,5 +1,7 @@
 package controller;
 
+import bo.custom.ItemBO;
+import bo.custom.impl.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import dto.ItemDTO;
@@ -71,7 +73,7 @@ public class ItemsController implements Initializable {
     @FXML
     private JFXTextField txtSearch;
 
-    private final ItemDAO itemDAO = new ItemDAOImpl();
+    private final ItemBO<ItemDTO> itemBO = new ItemBOImpl();
 
     public void notificationsButtonOnAction() {
     }
@@ -118,7 +120,7 @@ public class ItemsController implements Initializable {
     private void loadItems() {
         ObservableList<ItemTM> tmList = FXCollections.observableArrayList();
         try {
-            List<ItemDTO> dtoList = itemDAO.allItems();
+            List<ItemDTO> dtoList = itemBO.allItems();
             for (ItemDTO itemDTO : dtoList) {
                 JFXButton btn = new JFXButton("Delete");
                 ItemTM itemTm = new ItemTM(
@@ -223,7 +225,7 @@ public class ItemsController implements Initializable {
 
     public void deleteItem(String id) {
         try {
-            boolean isDeleted = itemDAO.deleteItem(id);
+            boolean isDeleted = itemBO.deleteItem(id);
             if (isDeleted) {
                 new Alert(Alert.AlertType.INFORMATION, "Item Deleted!").show();
                 loadItems();
@@ -240,7 +242,7 @@ public class ItemsController implements Initializable {
             return;
         }
         try {
-            boolean isSaved = itemDAO.saveItem(new ItemDTO(txtCode.getText(),
+            boolean isSaved = itemBO.saveItem(new ItemDTO(txtCode.getText(),
                     txtDescription.getText(),
                     Double.parseDouble(txtUnitPrice.getText()),
                     Integer.parseInt(txtQty.getText())
@@ -275,7 +277,7 @@ public class ItemsController implements Initializable {
             return;
         }
         try {
-            boolean isUpdated = itemDAO.updateItem(new ItemDTO(txtCode.getText(),
+            boolean isUpdated = itemBO.updateItem(new ItemDTO(txtCode.getText(),
                     txtDescription.getText(),
                     Double.parseDouble(txtUnitPrice.getText()),
                     Integer.parseInt(txtQty.getText())

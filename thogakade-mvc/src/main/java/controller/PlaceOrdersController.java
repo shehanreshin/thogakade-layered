@@ -1,7 +1,9 @@
 package controller;
 
 import bo.custom.CustomerBO;
+import bo.custom.ItemBO;
 import bo.custom.impl.CustomerBOImpl;
+import bo.custom.impl.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -115,7 +117,7 @@ public class PlaceOrdersController implements Initializable {
     private Label lblTotal;
 
     private CustomerBO<CustomerDTO> customerBO = new CustomerBOImpl();
-    private ItemDAO itemDAO = new ItemDAOImpl();
+    private ItemBO<ItemDTO> itemBO = new ItemBOImpl();
     private List<ItemDTO> items;
     private List<CustomerDTO> customers;
 
@@ -177,7 +179,7 @@ public class PlaceOrdersController implements Initializable {
 
         try {
             customers = customerBO.allCustomers();
-            items = itemDAO.allItems();
+            items = itemBO.allItems();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
