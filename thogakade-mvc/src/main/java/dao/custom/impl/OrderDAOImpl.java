@@ -29,16 +29,9 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public OrderDTO getLastOrder() throws SQLException, ClassNotFoundException {
+    public String getLastOrderId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.execute("SELECT * FROM orders ORDER BY id DESC LIMIT 1");
-        if (resultSet.next()){
-            return new OrderDTO(
-                    resultSet.getString(1),
-                    resultSet.getString(2),
-                    resultSet.getString(3),
-                    null
-            );
-        }
-        return null;
+        if (!resultSet.next()) return "D001";
+        return resultSet.getString(1);
     }
 }

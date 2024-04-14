@@ -235,14 +235,14 @@ public class PlaceOrdersController implements Initializable {
 
     private void setOrderId() {
         try {
-            String id = orderDAO.getLastOrder().getOrderId();
-            if (id!=null){
-                int num = Integer.parseInt(id.split("[D]")[1]);
-                num++;
-                lblOrderId.setText(String.format("D%03d",num));
-            }else{
+            String id = orderDAO.getLastOrderId();
+            if (id.equals("D001")){
                 lblOrderId.setText("D001");
+                return;
             }
+            int num = Integer.parseInt(id.split("[D]")[1]);
+            num++;
+            lblOrderId.setText(String.format("D%03d",num));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

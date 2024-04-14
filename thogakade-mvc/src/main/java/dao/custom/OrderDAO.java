@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface OrderDAO {
     boolean saveOrderDetails(OrderDTO dto) throws SQLException, ClassNotFoundException;
-    OrderDTO getLastOrder() throws SQLException, ClassNotFoundException;
+    String getLastOrderId() throws SQLException, ClassNotFoundException;
 }

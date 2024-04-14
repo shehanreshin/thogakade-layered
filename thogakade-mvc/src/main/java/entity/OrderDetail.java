@@ -7,24 +7,19 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "order_detail")
+@IdClass(OrderDetailKey.class)
 public class OrderDetail {
-    @EmbeddedId
-    private OrderDetailKey id;
-
-    @ManyToOne
-    @MapsId("orderId")
-    @JoinColumn(name = "order_id")
-    Orders orders;
-
-    @ManyToOne
-    @MapsId("itemCode")
-    @JoinColumn(name = "item_code")
-    Item item;
+    @Id
+    private String orderId;
+    @Id
+    private String itemCode;
 
     private int qty;
     private double unitPrice;
